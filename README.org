@@ -1,0 +1,4 @@
+#+title: nix-pack
+#+author: ardumont
+
+nix convenience setup.
