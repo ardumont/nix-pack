@@ -24,6 +24,21 @@
 
 ;;; Code:
 
+(require 'package)
+
+;; optional. makes unpure packages archives unavailable
+;; (setq package-archives nil)
+
+(defun nix-pack/add-package-directory (dir)
+  "A function to add to PACKAGE-DIRECTORY-LIST if the DIR exists."
+  (when (file-exists-p (expand-file-name dir))
+    (add-to-list #'package-directory-list dir)))
+
+(mapc #'nix-pack/add-package-directory '("/run/current-system/sw/share/emacs/site-lisp/elpa" ;; for emacs global install (nixos - emacs24PackagesNg)
+                                         "/run/current-system/sw/share/emacs/site-lisp/"     ;; for emacs global install (nixos - emacs24Packages)
+                                         "~/.nix-profile/share/emacs/site-lisp/elpa"         ;; for emacs env install (nix-env  - emacs24PackagesNg)
+                                         "~/.nix-profile/share/emacs/site-lisp/"))           ;; for emacs env install (nix-env  - emacs24Packages)
+
 (require 'install-packages-pack)
 (install-packages-pack/install-packs '(nix-mode
                                        smartscan))
