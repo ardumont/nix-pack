@@ -46,10 +46,5 @@
 (require 'nix-mode)
 (add-hook 'nix-mode-hook (lambda () (smartscan-mode 1)))
 
-(add-hook 'nix-mode-hook
-          (lambda ()
-            "Fix indentation pb when kill/yanking nix expression"
-            (set (make-local-variable 'indent-line-function) nil)))
-
 (provide 'nix-pack)
 ;;; nix-pack.el ends here
