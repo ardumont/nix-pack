@@ -24,11 +24,6 @@
 
 ;;; Code:
 
-(require 'package)
-
-;; optional. makes unpure packages archives unavailable
-;; (setq package-archives nil)
-
 (defun nix-pack/add-package-directory (dir)
   "A function to add to PACKAGE-DIRECTORY-LIST if the DIR exists."
   (when (file-exists-p (expand-file-name dir))
@@ -39,17 +34,15 @@
                                          "~/.nix-profile/share/emacs/site-lisp/elpa"         ;; for emacs env install (nix-env  - emacs24PackagesNg)
                                          "~/.nix-profile/share/emacs/site-lisp/"))           ;; for emacs env install (nix-env  - emacs24Packages)
 
-(require 'install-packages-pack)
-(install-packages-pack/install-packs '(nix-mode
-                                       smartscan))
+(use-package smartscan)
+(use-package nix-mode
+  :config
+  (add-hook 'nix-mode-hook (lambda () (smartscan-mode 1)))
 
-(require 'nix-mode)
-(add-hook 'nix-mode-hook (lambda () (smartscan-mode 1)))
-
-(add-hook 'nix-mode-hook
-          (lambda ()
-            "Fix indentation pb when kill/yanking nix expression"
-            (set (make-local-variable 'indent-line-function) nil)))
+  (add-hook 'nix-mode-hook
+            (lambda ()
+              "Fix indentation pb when kill/yanking nix expression"
+              (set (make-local-variable 'indent-line-function) nil))))
 
 (provide 'nix-pack)
 ;;; nix-pack.el ends here
