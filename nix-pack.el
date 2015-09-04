@@ -34,6 +34,11 @@
                                          "~/.nix-profile/share/emacs/site-lisp/elpa"         ;; for emacs env install (nix-env  - emacs24PackagesNg)
                                          "~/.nix-profile/share/emacs/site-lisp/"))           ;; for emacs env install (nix-env  - emacs24Packages)
 
+(use-package company-nixos-options
+  :config (add-to-list 'company-backends 'company-nixos-options))
+
+(use-package helm-nixos-options)
+
 (use-package smartscan)
 (use-package nix-mode
   :config
