@@ -34,20 +34,17 @@
                                          "~/.nix-profile/share/emacs/site-lisp/elpa"         ;; for emacs env install (nix-env  - emacs24PackagesNg)
                                          "~/.nix-profile/share/emacs/site-lisp/"))           ;; for emacs env install (nix-env  - emacs24Packages)
 
-(use-package company-nixos-options
-  :config (add-to-list 'company-backends 'company-nixos-options))
-
-(use-package helm-nixos-options)
-
 (use-package smartscan)
+(use-package helm-nixos-options)
+(use-package company-nixos-options)
+
 (use-package nix-mode
   :config
   (add-hook 'nix-mode-hook (lambda () (smartscan-mode 1)))
-
   (add-hook 'nix-mode-hook
             (lambda ()
-              "Fix indentation pb when kill/yanking nix expression"
-              (set (make-local-variable 'indent-line-function) nil))))
+              (add-to-list 'company-backends 'company-nixos-options))))
+
 
 (provide 'nix-pack)
 ;;; nix-pack.el ends here
