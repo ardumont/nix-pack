@@ -1,6 +1,6 @@
 ;;; nix-pack.el --- A pack to deal with specifics for nix/nixos development  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2014  Antoine R. Dumont
+;; Copyright (C) 2014-2019  Antoine R. Dumont
 
 ;; Author: Antoine R. Dumont <tony@dagobah>
 ;; Keywords: unix, convenience
@@ -24,27 +24,10 @@
 
 ;;; Code:
 
-(defun nix-pack/add-package-directory (dir)
-  "A function to add to PACKAGE-DIRECTORY-LIST if the DIR exists."
-  (when (file-exists-p (expand-file-name dir))
-    (add-to-list #'package-directory-list dir)))
+(require 'nix-mode)
+(require 'smartscan)
 
-(mapc #'nix-pack/add-package-directory '("/run/current-system/sw/share/emacs/site-lisp/elpa" ;; for emacs global install (nixos - emacs24PackagesNg)
-                                         "/run/current-system/sw/share/emacs/site-lisp/"     ;; for emacs global install (nixos - emacs24Packages)
-                                         "~/.nix-profile/share/emacs/site-lisp/elpa"         ;; for emacs env install (nix-env  - emacs24PackagesNg)
-                                         "~/.nix-profile/share/emacs/site-lisp/"))           ;; for emacs env install (nix-env  - emacs24Packages)
-
-(use-package smartscan)
-(use-package helm-nixos-options)
-(use-package company-nixos-options)
-
-(use-package nix-mode
-  :config
-  (add-hook 'nix-mode-hook (lambda () (smartscan-mode 1)))
-  (add-hook 'nix-mode-hook
-            (lambda ()
-              (add-to-list 'company-backends 'company-nixos-options))))
-
+(add-hook 'nix-mode-hook (lambda () (smartscan-mode 1)))
 
 (provide 'nix-pack)
 ;;; nix-pack.el ends here
